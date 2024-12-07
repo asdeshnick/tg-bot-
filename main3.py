@@ -52,18 +52,36 @@ def handle_start_command(message):
         msg = bot.send_message(message.chat.id, 'Привет! Пожалуйста, введите ваше имя для регистрации:')
         bot.register_next_step_handler(msg, process_name)
 
+    btn1222 = types.KeyboardButton("👋 Поздороваться")
     # Добавляем кнопки после сообщения
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     btn1 = types.KeyboardButton("проверка на лоха")
     btn2 = types.KeyboardButton("Создавал Андрей")
-    markup.add(btn1, btn2)
-
-    loh = ["Лох", "Не лоx"]
-    loh_bot = random.choice(loh)
-
-    if message.text == 'проверка на лоха':  
-        bot.send_message(message.from_user.id, loh_bot, reply_markup=markup) #ответ бота
+    markup.add(btn1, btn2, btn1222)
+    
     bot.send_message(message.chat.id, "Выберите опцию:", reply_markup=markup)
+
+@bot.message_handler(commands=['start'])
+def start(message):
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+   
+    bot.send_message(message.from_user.id, "👋 Привет! Я твой бот-помошник!", reply_markup=markup)
+@bot.message_handler(content_types=['text'])
+def get_text_messages(message):
+
+    if message.text == '👋 Поздороваться':
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True) #создание новых кнопок
+        btn11 = types.KeyboardButton('проверка на лоха')
+        btn12 = types.KeyboardButton('Создавал Андрей')
+        bot.send_message(message.from_user.id, 'мой github ' + '[ссылка](https://github.com/asdeshnick)', parse_mode='Markdown')
+        markup.add(btn11, btn12)
+        bot.send_message(message.from_user.id, '❓ Выберите ', reply_markup=markup) #ответ бота
+
+    elif message.text == 'проверка на лоха':  
+        loh = ["Лох", "Не лоx"]
+        loh_bot = random.choice(loh)
+        bot.send_message(message.from_user.id, loh_bot, reply_markup=markup) #ответ бота
 
 def process_name(message):
     user_id = message.chat.id
@@ -103,7 +121,7 @@ def handle_query(call):
         bot.answer_callback_query(call.id, "Вы выбрали просмотр статистики.")
         # Логика просмотра статистики
 
-
+bot.polling(none_stop=True, interval=0) #обязательная для работы бота часть
 if __name__ == '__main__':
     create_users_table()  # Создаём таблицу перед запуском бота
     bot.polling(none_stop=True)
