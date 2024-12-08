@@ -1,7 +1,7 @@
 import sqlite3
 import telebot
 
-token = '7547484997:AAEEku9A0hWZkhjA3jH4BZd2COyMuVe1BTg'  # Токен бота взят у @BotFather
+token = 'TOKEH'  # Токен бота взят у @BotFather
 bot = telebot.TeleBot(token)
 
 # Функция для подключения к базе данных
